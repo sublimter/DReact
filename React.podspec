@@ -31,7 +31,7 @@ Pod::Spec.new do |s|
                                 beautiful and fast products with no compromises in
                                 quality or capability.
                              DESC
-  s.homepage                = "http://facebook.github.io/react-native/"
+  s.homepage                = "https://github.com/sublimter/DReact"
   s.license                 = package["license"]
   s.author                  = "Facebook"
   s.source                  = source
