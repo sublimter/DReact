@@ -2,21 +2,12 @@
 require "json"
 
 package = JSON.parse(File.read(File.join(__dir__, "package.json")))
-version = package['version']
-
-source = { :git => 'https://github.com/facebook/react-native.git' }
-if version == '1000.0.0'
-  # This is an unpublished version, use the latest commit hash of the react-native repo, which we’re presumably in.
-  source[:commit] = `git rev-parse HEAD`.strip
-else
-  source[:tag] = "v#{version}"
-end
 
 folly_compiler_flags = '-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1'
 
 Pod::Spec.new do |s|
-  s.name                    = "React"
-  s.version                 = version
+  s.name                    = "DReact"
+  s.version                 = "0.55.3.1"
   s.summary                 = package["description"]
   s.description             = <<-DESC
                                 React Native apps are built using the React JS
@@ -34,7 +25,7 @@ Pod::Spec.new do |s|
   s.homepage                = "https://github.com/sublimter/DReact"
   s.license                 = package["license"]
   s.author                  = "Facebook"
-  s.source                  = source
+  s.source                  = "https://github.com/sublimter/DReact.git"
   s.default_subspec         = "Core"
   s.requires_arc            = true
   s.platforms               = { :ios => "8.0", :tvos => "9.2" }
@@ -68,28 +59,28 @@ Pod::Spec.new do |s|
 
   s.subspec "CxxBridge" do |ss|
     ss.dependency             "Folly", "2016.09.26.00"
-    ss.dependency             "React/Core"
-    ss.dependency             "React/cxxreact"
+    ss.dependency             "DReact/Core"
+    ss.dependency             "DReact/cxxreact"
     ss.compiler_flags       = folly_compiler_flags
     ss.private_header_files = "React/Cxx*/*.h"
     ss.source_files         = "React/Cxx*/*.{h,m,mm}"
   end
 
   s.subspec "DevSupport" do |ss|
-    ss.dependency             "React/Core"
-    ss.dependency             "React/RCTWebSocket"
+    ss.dependency             "DReact/Core"
+    ss.dependency             "DReact/RCTWebSocket"
     ss.source_files         = "React/DevSupport/*",
                               "React/Inspector/*"
   end
 
   s.subspec "tvOS" do |ss|
-    ss.dependency             "React/Core"
+    ss.dependency             "DReact/Core"
     ss.source_files         = "React/**/RCTTV*.{h, m}"
   end
 
   s.subspec "jschelpers" do |ss|
     ss.dependency             "Folly", "2016.09.26.00"
-    ss.dependency             "React/PrivateDatabase"
+    ss.dependency             "DReact/PrivateDatabase"
     ss.compiler_flags       = folly_compiler_flags
     ss.source_files         = "ReactCommon/jschelpers/*.{cpp,h}"
     ss.private_header_files = "ReactCommon/jschelpers/*.h"
@@ -110,8 +101,8 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "cxxreact" do |ss|
-    ss.dependency             "React/jschelpers"
-    ss.dependency             "React/jsinspector"
+    ss.dependency             "DReact/jschelpers"
+    ss.dependency             "DReact/jsinspector"
     ss.dependency             "boost-for-react-native", "1.63.0"
     ss.dependency             "Folly", "2016.09.26.00"
     ss.compiler_flags       = folly_compiler_flags
@@ -122,73 +113,73 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "ART" do |ss|
-    ss.dependency             "React/Core"
+    ss.dependency             "DReact/Core"
     ss.source_files         = "Libraries/ART/**/*.{h,m}"
   end
 
   s.subspec "RCTActionSheet" do |ss|
-    ss.dependency             "React/Core"
+    ss.dependency             "DReact/Core"
     ss.source_files         = "Libraries/ActionSheetIOS/*.{h,m}"
   end
 
   s.subspec "RCTAnimation" do |ss|
-    ss.dependency             "React/Core"
+    ss.dependency             "DReact/Core"
     ss.source_files         = "Libraries/NativeAnimation/{Drivers/*,Nodes/*,*}.{h,m}"
     ss.header_dir           = "RCTAnimation"
   end
 
   s.subspec "RCTBlob" do |ss|
-    ss.dependency             "React/Core"
+    ss.dependency             "DReact/Core"
     ss.source_files         = "Libraries/Blob/*.{h,m,mm}"
     ss.preserve_paths       = "Libraries/Blob/*.js"
   end
 
   s.subspec "RCTCameraRoll" do |ss|
-    ss.dependency             "React/Core"
-    ss.dependency             'React/RCTImage'
+    ss.dependency             "DReact/Core"
+    ss.dependency             'DReact/RCTImage'
     ss.source_files         = "Libraries/CameraRoll/*.{h,m}"
   end
 
   s.subspec "RCTGeolocation" do |ss|
-    ss.dependency             "React/Core"
+    ss.dependency             "DReact/Core"
     ss.source_files         = "Libraries/Geolocation/*.{h,m}"
   end
 
   s.subspec "RCTImage" do |ss|
-    ss.dependency             "React/Core"
-    ss.dependency             "React/RCTNetwork"
+    ss.dependency             "DReact/Core"
+    ss.dependency             "DReact/RCTNetwork"
     ss.source_files         = "Libraries/Image/*.{h,m}"
   end
 
   s.subspec "RCTNetwork" do |ss|
-    ss.dependency             "React/Core"
+    ss.dependency             "DReact/Core"
     ss.source_files         = "Libraries/Network/*.{h,m,mm}"
   end
 
   s.subspec "RCTPushNotification" do |ss|
-    ss.dependency             "React/Core"
+    ss.dependency             "DReact/Core"
     ss.source_files         = "Libraries/PushNotificationIOS/*.{h,m}"
   end
 
   s.subspec "RCTSettings" do |ss|
-    ss.dependency             "React/Core"
+    ss.dependency             "DReact/Core"
     ss.source_files         = "Libraries/Settings/*.{h,m}"
   end
 
   s.subspec "RCTText" do |ss|
-    ss.dependency             "React/Core"
+    ss.dependency             "DReact/Core"
     ss.source_files         = "Libraries/Text/**/*.{h,m}"
   end
 
   s.subspec "RCTVibration" do |ss|
-    ss.dependency             "React/Core"
+    ss.dependency             "DReact/Core"
     ss.source_files         = "Libraries/Vibration/*.{h,m}"
   end
 
   s.subspec "RCTWebSocket" do |ss|
-    ss.dependency             "React/Core"
-    ss.dependency             "React/RCTBlob"
-    ss.dependency             "React/fishhook"
+    ss.dependency             "DReact/Core"
+    ss.dependency             "DReact/RCTBlob"
+    ss.dependency             "DReact/fishhook"
     ss.source_files         = "Libraries/WebSocket/*.{h,m}"
   end
 
@@ -198,18 +189,18 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "RCTLinkingIOS" do |ss|
-    ss.dependency             "React/Core"
+    ss.dependency             "DReact/Core"
     ss.source_files         = "Libraries/LinkingIOS/*.{h,m}"
   end
 
   s.subspec "RCTTest" do |ss|
-    ss.dependency             "React/Core"
+    ss.dependency             "DReact/Core"
     ss.source_files         = "Libraries/RCTTest/**/*.{h,m}"
     ss.frameworks           = "XCTest"
   end
 
   s.subspec "_ignore_me_subspec_for_linting_" do |ss|
-    ss.dependency             "React/Core"
-    ss.dependency             "React/CxxBridge"
+    ss.dependency             "DReact/Core"
+    ss.dependency             "DReact/CxxBridge"
   end
 end
